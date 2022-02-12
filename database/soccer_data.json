@@ -1,0 +1,234 @@
+{
+	"leagues": [
+		{
+			"name": "English Premier League",
+			"teams": [
+				{
+					"name": "Chelsea",
+					"int": "CHE",
+					"rate": 800
+				},
+				{
+					"name": "Liverpool",
+					"int": "LIV",
+					"rate": 880
+				},
+				{
+					"name": "Manchester City",
+					"int": "MCI",
+					"rate": 920
+				},
+				{
+					"name": "Manchester United",
+					"int": "MUN",
+					"rate": 760
+				},
+				{
+					"name": "Everton",
+					"int": "EVE",
+					"rate": 680
+				},
+				{
+					"name": "Brighton",
+					"int": "BHA",
+					"rate": 600
+				},
+				{
+					"name": "Brentford",
+					"int": "BRE",
+					"rate": 280
+				},
+				{
+					"name": "Tottenhem",
+					"int": "TOT",
+					"rate": 720
+				},
+				{
+					"name": "West Ham United",
+					"int": "WHU",
+					"rate": 640
+				},
+				{
+					"name": "Aston Villa",
+					"int": "AVL",
+					"rate": 560
+				},
+				{
+					"name": "Arsenal",
+					"int": "ARS",
+					"rate": 680
+				},
+				{
+					"name": "Wolves",
+					"int": "WOL",
+					"rate": 560
+				},
+				{
+					"name": "Leicester City",
+					"int": "LEI",
+					"rate": 480
+				},
+				{
+					"name": "Crystal Palace",
+					"int": "CRY",
+					"rate": 440
+				},
+				{
+					"name": "Watford",
+					"int": "WAT",
+					"rate": 440
+				},
+				{
+					"name": "Leeds United",
+					"int": "LEE",
+					"rate": 400
+				},
+				{
+					"name": "Southampton",
+					"int": "SOU",
+					"rate": 360
+				},
+				{
+					"name": "Burnley",
+					"int": "BUR",
+					"rate": 320
+				},
+				{
+					"name": "Newcastle",
+					"int": "NEW",
+					"rate": 360
+				},
+				{
+					"name": "Norwich City",
+					"int": "NOR",
+					"rate": 280
+				}
+			]
+		},
+		{
+			"name": "EFL Championship",
+			"teams": [
+				{
+					"name": "Bournemouth",
+					"int": "BOU",
+					"rate": 240
+				},
+				{
+					"name": "Fulham",
+					"int": "FUL",
+					"rate": 230
+				},
+				{
+					"name": "West Bromwich Albion",
+					"int": "WBA",
+					"rate": 210
+				},
+				{
+					"name": "Coventry",
+					"int": "COV",
+					"rate": 195
+				},
+				{
+					"name": "Stoke City",
+					"int": "STK",
+					"rate": 185
+				},
+				{
+					"name": "Queen Park Rangers",
+					"int": "QPR",
+					"rate": 175
+				},
+				{
+					"name": "Blackburn Rovers",
+					"int": "BLA",
+					"rate": 170
+				},
+				{
+					"name": "Hudderfield",
+					"int": "HUD",
+					"rate": 160
+				},
+				{
+					"name": "Millwall",
+					"int": "MIL",
+					"rate": 155
+				},
+				{
+					"name": "Blackpool",
+					"int": "BLK",
+					"rate": 150
+				},
+				{
+					"name": "Luton Town",
+					"int": "LUT",
+					"rate": 140
+				},
+				{
+					"name": "Swansea City",
+					"int": "SWA",
+					"rate": 135
+				},
+				{
+					"name": "Nottingham Forest",
+					"int": "NOT",
+					"rate": 125
+				},
+				{
+					"name": "Middlesbrough",
+					"int": "MID",
+					"rate": 120
+				},
+				{
+					"name": "Birmingham",
+					"int": "BIR",
+					"rate": 120
+				},
+				{
+					"name": "Reading",
+					"int": "REA",
+					"rate": 115
+				},
+				{
+					"name": "Preston",
+					"int": "PRE",
+					"rate": 110
+				},
+				{
+					"name": "Sheffield United",
+					"int": "SHE",
+					"rate": 100
+				},
+				{
+					"name": "Bristol City",
+					"int": "BRI",
+					"rate": 100
+				},
+				{
+					"name": "Cardiff City",
+					"int": "CAR",
+					"rate": 90
+				},
+				{
+					"name": "Peterborough",
+					"int": "PET",
+					"rate": 90
+				},
+				{
+					"name": "HUll City",
+					"int": "HUL",
+					"rate": 75
+				},
+				{
+					"name": "Barnsley",
+					"int": "BAR",
+					"rate": 70
+				},
+				{
+					"name": "Derby County",
+					"int": "DER",
+					"rate": 55
+				}
+			]
+		}
+	]
+}
