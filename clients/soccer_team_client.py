@@ -36,12 +36,5 @@ class SoccerTeamClient:
             self.points += 1
             self.scheduled_games[match_index]["result"] = "D"
 
-        if meta is not None:
-            self.scheduled_games[match_index]["meta"] = "penalties"
-            if meta[0] > meta[1]:
-                self.scheduled_games[match_index]["result"] = "W"
-            else:
-                self.scheduled_games[match_index]["result"] = "L"
-
     def __str__(self):
         return self.team_name

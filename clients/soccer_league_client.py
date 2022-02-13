@@ -53,7 +53,8 @@ class SoccerLeagueClient:
                 away_team = self.return_team_by_name(match[1])
                 home_team.scheduled_games.append(
                     {
-                        "opponent": away_team.team_name,
+                        "opponent_name": away_team.team_name,
+                        "opponent": away_team.team_int,
                         "location": "H",
                         "result": "NP",
                         "gf": None,
@@ -62,7 +63,8 @@ class SoccerLeagueClient:
                 )
                 away_team.scheduled_games.append(
                     {
-                        "opponent": home_team.team_name,
+                        "opponent_name": home_team.team_name,
+                        "opponent": home_team.team_int,
                         "location": "A",
                         "result": "NP",
                         "gf": None,
@@ -110,12 +112,17 @@ class SoccerLeagueClient:
         if self.match_week <= self.season_length:  # while
             match_index = self.match_week - 1
             print("Match Week:", self.match_week)
+            match_results = []
             for match in self.schedule[match_index]:
                 home_team = self.return_team_by_name(match[0])
                 away_team = self.return_team_by_name(match[1])
-                soccer_match_client.play_match(match_index, home_team, away_team)
+                result = soccer_match_client.play_match(
+                    match_index, home_team, away_team
+                )
+                match_results.append(result)
 
             self.match_week += 1
+            return match_results
 
     def sort_league_table(self, in_season=True):
         unsorted_table = self.team_list[1:-1] if in_season is True else self.team_list
@@ -134,19 +141,19 @@ class SoccerLeagueClient:
             sorted_dict[index].historical_placing.append(index + 1)
 
             sorted_table.append(
-                [
-                    index + 1,
-                    sorted_dict[index].team_int,
-                    sorted_dict[index].games_played,
-                    sorted_dict[index].wins,
-                    sorted_dict[index].draws,
-                    sorted_dict[index].losses,
-                    sorted_dict[index].goals_for,
-                    sorted_dict[index].goals_against,
-                    sorted_dict[index].goal_difference,
-                    sorted_dict[index].points,
-                    team_movement,
-                ]
+                {
+                    "Placing": index + 1,
+                    "Team Name": sorted_dict[index].team_name,
+                    "Games Played": sorted_dict[index].games_played,
+                    "Wins": sorted_dict[index].wins,
+                    "Draws": sorted_dict[index].draws,
+                    "Losses": sorted_dict[index].losses,
+                    "Goals For": sorted_dict[index].goals_for,
+                    "Goals Against": sorted_dict[index].goals_against,
+                    "Goal Difference": sorted_dict[index].goal_difference,
+                    "Points": sorted_dict[index].points,
+                    "Movement": team_movement,
+                }
             )
         for row in sorted_table:
             print(row)
@@ -164,9 +171,9 @@ class SoccerLeagueClient:
 
     def run_season(self):
         if self.match_week <= self.season_length:
-            self.run_match_week()
+            match_results = self.run_match_week()
             table = self.sort_league_table()
 
-            return table
+            return table, match_results, self.match_week
 
-        return []
+        return [], [], self.match_week

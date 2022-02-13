@@ -22,41 +22,16 @@ class SoccerMatchClient:
             elif goal_sum >= (goal_range - home_team.team_rate):
                 home_goals += 1
 
-        home_penalties = 0
-        away_penalties = 0
-        penalties = False
-        if knockout is True:
-            # overtime
-            if home_goals == away_goals:
-                for _ in range(self.overtime_range):
-                    goal_sum = random.randint(0, goal_range)
-                    if goal_sum >= 0 and goal_sum <= away_team.team_rate:
-                        away_goals += 1
-                    elif goal_sum >= (goal_range - home_team.team_rate):
-                        home_goals += 1
-            # penalties
-            penalties = True
-            if home_goals == away_goals:
-                while home_penalties == away_penalties or (
-                    (home_penalties < 5) and (away_penalties < 5)
-                ):
-                    penalty_scored = random.randint(0, 5)
-                    if penalty_scored != 0:
-                        home_penalties += 1
-                    if penalty_scored != 5:
-                        away_penalties += 1
+        print(home_team.team_int, home_goals, "-", away_goals, away_team.team_int)
 
-        print(home_team, home_goals, "-", away_goals, away_team)
+        home_team.record_stats(match_index, home_goals, away_goals)
+        away_team.record_stats(match_index, away_goals, home_goals)
 
-        home_team.record_stats(
-            match_index,
-            home_goals,
-            away_goals,
-            [home_penalties, away_penalties] if penalties is True else None,
-        )
-        away_team.record_stats(
-            match_index,
-            away_goals,
-            home_goals,
-            [away_penalties, home_penalties] if penalties is True else None,
-        )
+        return {
+            "home_team_name": home_team.team_name,
+            "home_team": home_team.team_int,
+            "home_goals": home_goals,
+            "away_goals": away_goals,
+            "away_team": away_team.team_int,
+            "away_team_name": away_team.team_name,
+        }
