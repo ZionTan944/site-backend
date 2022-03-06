@@ -1,3 +1,5 @@
+import json
+
 from flask import request
 
 from index import app
@@ -11,30 +13,29 @@ soccer_league = SoccerLeagueClient(league_name, teams_lst)
 soccer_league.prepare_season()
 
 
-@app.route("/test_soccer_league", methods=["GET"])
+@app.route("/test_soccer_league", methods=["POST"])
 def test():
-    if request.method == "GET":
+    if request.method == "POST":
         data = get_all_leagues(conn)
 
     return {"leagues": data}
 
 
-@app.route("/soccer_league/reset", methods=["GET"])
+@app.route("/soccer_league/reset", methods=["POST"])
 def set_up_soccer_league():
     conn = create_connection()
-    if request.method == "GET":
-        league_id = request.get_json().get("league_id")
-        league_name, teams_lst = set_up_soccer_teams(conn, league_id)
+    if request.method == "POST":
+        # league_id = request.get_json().get("league_id")
+        league_name, teams_lst = set_up_soccer_teams(conn, 1)
         soccer_league.reset_season(teams_lst)
         table = soccer_league.prepare_season()
         return {"league_table": table, "match_week": 0}
 
 
-@app.route("/soccer_league/run", methods=["GET"])
+@app.route("/soccer_league/run", methods=["POST"])
 def run_soccer_league():
     conn = create_connection()
-    if request.method == "GET":
-        league_id = request.get_json().get("league_id")
+    if request.method == "POST":
         table, match_results, match_week = soccer_league.run_season()
         return {
             "league_table": table,
@@ -43,11 +44,32 @@ def run_soccer_league():
         }
 
 
-@app.route("/soccer_league/get_team", methods=["GET"])
+@app.route("/soccer_league/get_league_name", methods=["POST"])
+def get_league_name():
+    conn = create_connection()
+    if request.method == "POST":
+        return {"league_name": soccer_league.league_name}
+
+
+@app.route("/soccer_league/get_team", methods=["POST"])
 def get_soccer_team_schedule():
     conn = create_connection()
-    if request.method == "GET":
-        team_name = request.get_json().get("team_name")
-        team_schedule = soccer_league.return_team_by_name(team_name).scheduled_games
+    if request.method == "POST":
+        team_name = json.loads(request.data).get("team_name")
+        print(team_name)
+        team = soccer_league.return_team_by_name(team_name)
 
-        return {"schedule": team_schedule}
+        team_schedule = team.scheduled_games
+        team_data = {
+            "team_int": team.team_int,
+            "place": team.current_placing,
+            "w": team.wins,
+            "l": team.losses,
+            "d": team.draws,
+            "gf": team.goals_for,
+            "ga": team.goals_against,
+            "gd": team.goal_difference,
+            "gp": team.games_played,
+        }
+
+        return {"schedule": team_schedule, "team_data": team_data}

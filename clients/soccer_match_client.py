@@ -8,7 +8,7 @@ class SoccerMatchClient:
 
     def play_match(self, match_index, home_team, away_team, knockout=False):
         if home_team.team_int == "RES" or away_team.team_int == "RES":
-            return
+            return None
 
         goal_range = (home_team.team_rate * 30) + (away_team.team_rate * 30)
 
