@@ -10,20 +10,22 @@ soccer_match_client = SoccerMatchClient()
 
 
 class SoccerLeagueClient:
-    def __init__(self, league_name, team_list):
+    def __init__(self, league_name, team_list, meta):
         self.match_week = 1
         self.league_name = league_name
         self.team_list = team_list
         # key: team_name, value: index for team in team_list
         self.team_list_mapping = {}
         self.schedule = []
+        self.meta = meta
 
     def return_team_by_name(self, name):
         return self.team_list[self.team_list_mapping[name]]
 
-    def reset_season(self, team_list):
+    def reset_season(self, team_list, meta):
         self.team_list = deepcopy(team_list)
         self.match_week = 1
+        self.meta = meta
 
     def randomise_team_list(self):
         random_counter = len(self.team_list) // 2
@@ -48,7 +50,7 @@ class SoccerLeagueClient:
 
         self.schedule = schedule
         # Set individual team's schedule
-        for match_week in self.schedule:
+        for index, match_week in enumerate(self.schedule):
             for match in match_week:
                 home_team = self.return_team_by_name(match[0])
                 away_team = self.return_team_by_name(match[1])
@@ -60,6 +62,7 @@ class SoccerLeagueClient:
                         "result": "NP",
                         "gf": None,
                         "ga": None,
+                        "match_week": index + 1,
                     }
                 )
                 away_team.scheduled_games.append(
@@ -70,6 +73,7 @@ class SoccerLeagueClient:
                         "result": "NP",
                         "gf": None,
                         "ga": None,
+                        "match_week": index + 1,
                     }
                 )
 
@@ -141,22 +145,6 @@ class SoccerLeagueClient:
 
             sorted_dict[index].current_placing = index + 1
             sorted_dict[index].historical_placing.append(index + 1)
-
-            # sorted_table.append(
-            #     {
-            #         "Placing": index + 1,
-            #         "Team Name": sorted_dict[index].team_name,
-            #         "Games Played": sorted_dict[index].games_played,
-            #         "Wins": sorted_dict[index].wins,
-            #         "Draws": sorted_dict[index].draws,
-            #         "Losses": sorted_dict[index].losses,
-            #         "Goals For": sorted_dict[index].goals_for,
-            #         "Goals Against": sorted_dict[index].goals_against,
-            #         "Goal Difference": sorted_dict[index].goal_difference,
-            #         "Points": sorted_dict[index].points,
-            #         "Movement": team_movement,
-            #     }
-            # )
             sorted_table.append(
                 [
                     index + 1,

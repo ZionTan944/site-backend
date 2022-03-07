@@ -28,7 +28,7 @@ def get_all_teams_by_league(conn, league_id):
 
 def insert_new_league(conn, league_name, meta_json=""):
     cursor = conn.execute(
-        f'INSERT INTO soccer_leagues (league_name, meta_json) VALUES ("{league_name}","{meta_json}");'
+        f"INSERT INTO soccer_leagues (league_name, meta_json) VALUES ('{league_name}','{meta_json}');"
     )
     conn.commit()
     league_id = cursor.lastrowid
@@ -57,4 +57,4 @@ def set_up_soccer_teams(conn, league_id):
         )
         index += 1
 
-    return league["league_name"], team_class_list
+    return league["league_name"], team_class_list, league["meta_json"]

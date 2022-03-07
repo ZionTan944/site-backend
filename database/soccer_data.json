@@ -2,26 +2,32 @@
 	"leagues": [
 		{
 			"name": "English Premier League",
+			"meta": {
+				"top": [1],
+				"second": [2, 3, 4],
+				"third": [5],
+				"relegation": [18, 19, 20]
+			},
 			"teams": [
 				{
 					"name": "Chelsea",
 					"int": "CHE",
-					"rate": 800
+					"rate": 900
 				},
 				{
 					"name": "Liverpool",
 					"int": "LIV",
-					"rate": 880
+					"rate": 980
 				},
 				{
 					"name": "Manchester City",
 					"int": "MCI",
-					"rate": 920
+					"rate": 1100
 				},
 				{
 					"name": "Manchester United",
 					"int": "MUN",
-					"rate": 760
+					"rate": 860
 				},
 				{
 					"name": "Everton",
@@ -41,7 +47,7 @@
 				{
 					"name": "Tottenhem",
 					"int": "TOT",
-					"rate": 720
+					"rate": 790
 				},
 				{
 					"name": "West Ham United",
@@ -56,7 +62,7 @@
 				{
 					"name": "Arsenal",
 					"int": "ARS",
-					"rate": 680
+					"rate": 750
 				},
 				{
 					"name": "Wolves",
@@ -107,6 +113,13 @@
 		},
 		{
 			"name": "EFL Championship",
+			"meta": {
+				"top": [1],
+				"second": [2],
+				"third": [3, 4, 5, 6],
+				"relegation": [22, 23, 24]
+			},
+
 			"teams": [
 				{
 					"name": "Bournemouth",
@@ -144,7 +157,7 @@
 					"rate": 170
 				},
 				{
-					"name": "Hudderfield",
+					"name": "Huddersfield",
 					"int": "HUD",
 					"rate": 160
 				},
@@ -214,7 +227,7 @@
 					"rate": 90
 				},
 				{
-					"name": "HUll City",
+					"name": "Hull City",
 					"int": "HUL",
 					"rate": 75
 				},

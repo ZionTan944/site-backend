@@ -45,7 +45,9 @@ def main():
 
         soccer_data = read_json_file("database/soccer_data.json")
         for league in soccer_data["leagues"]:
-            league_id = insert_new_league(conn, league["name"])
+            league_id = insert_new_league(
+                conn, league["name"], str(league["meta"]).replace("'", '"')
+            )
             for team in league["teams"]:
                 insert_new_team(
                     conn, team["name"], team["int"], team["rate"], league_id

@@ -10,7 +10,10 @@ class SoccerMatchClient:
         if home_team.team_int == "RES" or away_team.team_int == "RES":
             return None
 
-        goal_range = (home_team.team_rate * 30) + (away_team.team_rate * 30)
+        home_rate = int(home_team.team_rate * 1.1)
+        away_rate = away_team.team_rate
+
+        goal_range = (home_rate * 27) + (away_rate * 27)
 
         home_goals = 0
         away_goals = 0
