@@ -28,13 +28,14 @@ def set_up_soccer_league():
         league_id = json.loads(request.data).get("league_id")
         league_name, teams_lst, meta = set_up_soccer_teams(conn, league_id)
         soccer_league.reset_season(teams_lst, meta)
-        table = soccer_league.prepare_season()
+        table, schedule = soccer_league.prepare_season()
         return {
             "league_table": table,
             "match_week": 0,
             "league_name": soccer_league.league_name,
             "total_weeks": soccer_league.season_length,
             "meta": json.loads(meta),
+            "match_results": schedule,
         }
 
 
