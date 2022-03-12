@@ -52,7 +52,10 @@ def set_up_soccer_teams(conn, league_id):
     for team in teams:
         team_class_list.append(
             SoccerTeamClient(
-                team["team_name"], team["team_int"], team["team_rating"], index
+                team["team_name"],
+                team["team_int"],
+                team["team_rating"],
+                (len(teams) + 1) - index,
             )
         )
         index += 1

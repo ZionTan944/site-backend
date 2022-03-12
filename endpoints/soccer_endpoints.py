@@ -61,6 +61,8 @@ def get_soccer_team_schedule():
         team_schedule = team.scheduled_games
         team_data = {
             "team_int": team.team_int,
+            "form": team.form,
+            "fitness": team.fitness,
             "place": team.current_placing,
             "w": team.wins,
             "l": team.losses,
@@ -69,6 +71,7 @@ def get_soccer_team_schedule():
             "ga": team.goals_against,
             "gd": team.goal_difference,
             "gp": team.games_played,
+            "ex": team.expected_placing,
         }
 
         return {"schedule": team_schedule, "team_data": team_data}
