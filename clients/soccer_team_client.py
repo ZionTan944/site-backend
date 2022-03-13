@@ -34,43 +34,35 @@ class SoccerTeamClient:
             self.points += 3
             self.scheduled_games[match_index]["result"] = "W"
             self.consecutive_form[0] += 1
-            self.consecutive_form[1] = 0
             self.form = min(
                 self.form
-                + ((goals_for - goals_against + self.consecutive_form[0]) * 1),
+                + (goals_for - goals_against)
+                + min(self.consecutive_form[0], 5)
+                + min(self.consecutive_form[1], 5),
                 200,
             )
+            self.consecutive_form[1] = 0
+
         elif goals_for < goals_against:
             self.losses += 1
             self.scheduled_games[match_index]["result"] = "L"
-            self.consecutive_form[0] = 0
             self.consecutive_form[1] += 1
             self.form = max(
                 self.form
-                - ((goals_against - goals_for + self.consecutive_form[1]) * 1),
+                - (goals_against - goals_for)
+                - min(self.consecutive_form[1], 5)
+                - min(self.consecutive_form[0], 5),
                 80,
             )
+            self.consecutive_form[0] = 0
+
         else:
             self.draws += 1
             self.points += 1
             self.scheduled_games[match_index]["result"] = "D"
-            self.consecutive_form[0] = max(0, self.consecutive_form[0] - 1)
-            self.consecutive_form[1] = max(0, self.consecutive_form[1] - 1)
-
+            self.consecutive_form[0] = 0
+            self.consecutive_form[1] = 0
             self.form = max(self.form - ((max(1, goals_against)) * 1), 80)
-
-        # if self.current_placing < self.expected_placing:
-        #     self.form = min(
-        #         self.form + ((self.expected_placing - self.current_placing) // 2), 200
-        #     )
-
-        # elif self.current_placing > self.expected_placing:
-        #     self.form = max(
-        #         self.form - ((self.current_placing - self.expected_placing) // 2), 80
-        #     )
-
-        # else:
-        #     self.form = min(self.form + 1, 200)
 
     def __str__(self):
         return self.team_name
