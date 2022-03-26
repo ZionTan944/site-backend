@@ -43,11 +43,15 @@ def set_up_soccer_league():
 def run_soccer_league():
     conn = create_connection()
     if request.method == "POST":
-        table, match_results, match_week = soccer_league.run_season()
+        extra_stats, table, match_results, table_history, match_week = (
+            soccer_league.run_season()
+        )
         return {
             "league_table": table,
             "match_results": match_results,
             "match_week": match_week,
+            "extra_stats": extra_stats,
+            "table_history": table_history,
         }
 
 
@@ -55,23 +59,28 @@ def run_soccer_league():
 def get_soccer_team_schedule():
     conn = create_connection()
     if request.method == "POST":
-        team_name = json.loads(request.data).get("team_name")
-        team = soccer_league.return_team_by_name(team_name)
+        response = []
+        team_names = json.loads(request.data).get("team_names")
+        for team_name in team_names:
+            if team_name == "":
+                response.append({"schedule": [{}], "team_data": {}})
+                continue
+            team = soccer_league.return_team_by_name(team_name)
+            team_schedule = team.scheduled_games
+            team_data = {
+                "team_int": team.team_int,
+                "form": team.form,
+                "fitness": team.fitness,
+                "place": team.current_placing,
+                "w": team.wins,
+                "l": team.losses,
+                "d": team.draws,
+                "gf": team.goals_for,
+                "ga": team.goals_against,
+                "gd": team.goal_difference,
+                "gp": team.games_played,
+                "ex": team.expected_placing,
+            }
+            response.append({"schedule": team_schedule, "team_data": team_data})
 
-        team_schedule = team.scheduled_games
-        team_data = {
-            "team_int": team.team_int,
-            "form": team.form,
-            "fitness": team.fitness,
-            "place": team.current_placing,
-            "w": team.wins,
-            "l": team.losses,
-            "d": team.draws,
-            "gf": team.goals_for,
-            "ga": team.goals_against,
-            "gd": team.goal_difference,
-            "gp": team.games_played,
-            "ex": team.expected_placing,
-        }
-
-        return {"schedule": team_schedule, "team_data": team_data}
+        return {"response": response}

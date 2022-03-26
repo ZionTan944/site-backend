@@ -6,7 +6,7 @@ class SoccerTeamClient:
         self.team_rate = team_rate
         self.fitness = 100
         self.form = 140
-        self.consecutive_form = [0, 0]
+        self.consecutive_form = [0, 0, 0]
         self.games_played = 0
         self.wins = 0
         self.draws = 0
@@ -36,12 +36,13 @@ class SoccerTeamClient:
             self.consecutive_form[0] += 1
             self.form = min(
                 self.form
-                + (goals_for - goals_against)
+                + (goals_for - (goals_against // 2))
                 + min(self.consecutive_form[0], 5)
-                + min(self.consecutive_form[1], 5),
+                - min(self.consecutive_form[1], 5),
                 200,
             )
             self.consecutive_form[1] = 0
+            self.consecutive_form[2] = 0
 
         elif goals_for < goals_against:
             self.losses += 1
@@ -49,20 +50,27 @@ class SoccerTeamClient:
             self.consecutive_form[1] += 1
             self.form = max(
                 self.form
-                - (goals_against - goals_for)
+                - (goals_against - (goals_for // 2))
                 - min(self.consecutive_form[1], 5)
-                - min(self.consecutive_form[0], 5),
+                + min(self.consecutive_form[0], 5),
                 80,
             )
             self.consecutive_form[0] = 0
+            self.consecutive_form[2] = 0
 
         else:
             self.draws += 1
             self.points += 1
             self.scheduled_games[match_index]["result"] = "D"
+            self.consecutive_form[2] += 1
             self.consecutive_form[0] = 0
             self.consecutive_form[1] = 0
-            self.form = max(self.form - ((max(1, goals_against)) * 1), 80)
+            self.form = max(
+                self.form
+                - min(2, goals_against)
+                - min(self.consecutive_form[2] * 2, 8),
+                80,
+            )
 
     def __str__(self):
         return self.team_name
