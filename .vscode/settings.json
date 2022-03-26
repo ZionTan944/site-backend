@@ -1,0 +1,12 @@
+{
+	"python.linting.pylintEnabled": true,
+	"python.linting.enabled": true,
+	"python.linting.pylintUseMinimalCheckers": false,
+	"python.linting.pylintArgs": [
+		"--rcfile=.pylintrc",
+		"--load-plugins",
+		"pylint_flask",
+		"--init-hook",
+		"import sys; sys.path.insert(0, 'C:/Users/DELL/Desktop/Random/More/Site/site-backend')"
+	]
+}

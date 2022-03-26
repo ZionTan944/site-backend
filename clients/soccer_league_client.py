@@ -1,5 +1,4 @@
 import random
-import math
 from copy import deepcopy
 
 from .soccer_team_client import SoccerTeamClient
@@ -16,6 +15,8 @@ class SoccerLeagueClient:
         self.team_list_mapping = {}
         self.schedule = []
         self.meta = meta
+        self.sorted_dict = {}
+        self.season_length = (len(self.team_list) * 2) - 2
 
     def return_team_by_name(self, name):
         return self.team_list[self.team_list_mapping[name]]
@@ -37,8 +38,8 @@ class SoccerLeagueClient:
         self.team_list.insert(0, SoccerTeamClient("REST1", "RES", 0, 0))
         self.team_list.append(SoccerTeamClient("REST2", "RES", 0, 0))
 
-        for team_index in range(len(self.team_list)):
-            self.team_list_mapping[self.team_list[team_index].team_name] = team_index
+        for team_index, team in enumerate(self.team_list):
+            self.team_list_mapping[team.team_name] = team_index
 
     def set_extra_info(self, team, extra_stats):
         if team.form > extra_stats["hot"][1]["value"]:
@@ -167,7 +168,7 @@ class SoccerLeagueClient:
 
         self.set_schedule(schedule, forward_schedule, return_schedule)
 
-    def play_match(self, match_index, home_team, away_team, knockout=False):
+    def play_match(self, match_index, home_team, away_team):
         if home_team.team_int == "RES" or away_team.team_int == "RES":
             home_team.fitness = 100
             away_team.fitness = 100

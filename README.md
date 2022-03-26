@@ -1,3 +1,3 @@
 # site-backend
 
-../backend-env/Scripts/activate
+backend-env/Scripts/activate

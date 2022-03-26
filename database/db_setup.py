@@ -8,16 +8,16 @@ from services.soccer_services import insert_new_league, insert_new_team
 
 
 def create_connection(
-    db_file="C:/Users/DELL/Desktop/Random/More/Site/site-backend/database.db"
+    db_file="C:/Users/DELL/Desktop/Random/More/Site/site-backend/database.db",
 ):
-    """ create a database connection to the SQLite database
+    """create a database connection to the SQLite database
         specified by db_file
     :param db_file: database file
     :return: Connection object or None
     """
     conn = None
     try:
-        conn = sqlite3.connect(db_file)
+        conn = sqlite3.connect(db_file, check_same_thread=False)
         conn.row_factory = sqlite3.Row
         return conn
     except Error as e:

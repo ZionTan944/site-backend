@@ -1,0 +1,4 @@
+[FORMAT]
+max-line-length=240
+
+disable=missing-module-docstring, missing-class-docstring, missing-function-docstring, redefined-outer-name

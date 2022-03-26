@@ -1,6 +1,3 @@
-from flask import request, g
-import uuid
-
 from clients.soccer_team_client import SoccerTeamClient
 
 

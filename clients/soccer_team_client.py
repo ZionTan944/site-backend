@@ -19,7 +19,7 @@ class SoccerTeamClient:
         self.current_placing = index
         self.historical_placing = []
 
-    def record_stats(self, match_index, goals_for, goals_against, meta=None):
+    def record_stats(self, match_index, goals_for, goals_against):
 
         self.games_played += 1
         self.goals_for += goals_for

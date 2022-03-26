@@ -23,7 +23,6 @@ def test():
 
 @app.route("/soccer_league/reset", methods=["POST"])
 def set_up_soccer_league():
-    conn = create_connection()
     if request.method == "POST":
         league_id = json.loads(request.data).get("league_id")
         league_name, teams_lst, meta = set_up_soccer_teams(conn, league_id)
@@ -32,7 +31,7 @@ def set_up_soccer_league():
         return {
             "league_table": table,
             "match_week": 0,
-            "league_name": soccer_league.league_name,
+            "league_name": league_name,
             "total_weeks": soccer_league.season_length,
             "meta": json.loads(meta),
             "match_results": schedule,
@@ -41,11 +40,14 @@ def set_up_soccer_league():
 
 @app.route("/soccer_league/run", methods=["POST"])
 def run_soccer_league():
-    conn = create_connection()
     if request.method == "POST":
-        extra_stats, table, match_results, table_history, match_week = (
-            soccer_league.run_season()
-        )
+        (
+            extra_stats,
+            table,
+            match_results,
+            table_history,
+            match_week,
+        ) = soccer_league.run_season()
         return {
             "league_table": table,
             "match_results": match_results,
@@ -57,7 +59,6 @@ def run_soccer_league():
 
 @app.route("/soccer_league/get_team", methods=["POST"])
 def get_soccer_team_schedule():
-    conn = create_connection()
     if request.method == "POST":
         response = []
         team_names = json.loads(request.data).get("team_names")
