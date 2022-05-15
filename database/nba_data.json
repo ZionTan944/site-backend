@@ -1,0 +1,108 @@
+{
+	"East": {
+		"Atlantic": {
+			"PHI": {
+				"Name": "Philadelphia 76ers"
+			},
+			"BKN": {
+				"Name": "Brooklyn Nets"
+			},
+			"TOR": {
+				"Name": "Toronto Raptors"
+			},
+			"BOS": {
+				"Name": "Boston Celtics"
+			},
+			"NYK": {
+				"Name": "New York Knicks"
+			}
+		},
+		"Central": {
+			"MIL": {
+				"Name": "Milwaukee Bucks"
+			},
+			"IND": {
+				"Name": "Indiana Pacers"
+			},
+			"CHI": {
+				"Name": "Chicago Bulls"
+			},
+			"CLE": {
+				"Name": "Cleveland Cavaliers"
+			},
+			"DET": {
+				"Name": "Detroit Pistons"
+			}
+		},
+		"Southeast": {
+			"CHA": {
+				"Name": "Charlotte Hornets"
+			},
+			"MIA": {
+				"Name": "Miami Heat"
+			},
+			"ATL": {
+				"Name": "Atlanta Hawks"
+			},
+			"ORL": {
+				"Name": "Orlando Magic"
+			},
+			"WAS": {
+				"Name": "Washington Wizards"
+			}
+		}
+	},
+	"West": {
+		"Northwest": {
+			"UTA": {
+				"Name": "Utah Jazz"
+			},
+			"POR": {
+				"Name": "Portland Trail Blazers"
+			},
+			"DEN": {
+				"Name": "enver Nuggets"
+			},
+			"OKC": {
+				"Name": "Oklahoma City Thunder"
+			},
+			"MIN": {
+				"Name": "Minnesota Timberwolves"
+			}
+		},
+		"Pacific": {
+			"LAC": {
+				"Name": "Los Angeles Clippers"
+			},
+			"LAL": {
+				"Name": "Los Angeles Lakers"
+			},
+			"PHX": {
+				"Name": "Phoenix Suns"
+			},
+			"GSW": {
+				"Name": "Golden State Warriors"
+			},
+			"SAC": {
+				"Name": "Sacramento Kings"
+			}
+		},
+		"Southwest": {
+			"SAS": {
+				"Name": "San Antonio Spurs"
+			},
+			"DAL": {
+				"Name": "Dallas Mavericks"
+			},
+			"MEM": {
+				"Name": "Memphis Grizzlies"
+			},
+			"NOP": {
+				"Name": "New Orlean Pelicans"
+			},
+			"HOU": {
+				"Name": "Houston Rockets"
+			}
+		}
+	}
+}

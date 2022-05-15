@@ -1,10 +1,10 @@
 import sqlite3
-from flask import g
 
 from sqlite3 import Error
-from database.sql_script import sql_set_up_tables
+from database.sql_script import SQL_TABLES_SETUP
 from services.json_services import read_json_file
 from services.soccer_services import insert_new_league, insert_new_team
+from services.nba_services import insert_nba_team
 
 
 def create_connection(
@@ -20,19 +20,39 @@ def create_connection(
         conn = sqlite3.connect(db_file, check_same_thread=False)
         conn.row_factory = sqlite3.Row
         return conn
-    except Error as e:
-        print(e)
+    except Error as error:
+        print(error)
 
     return conn
 
 
 def set_up_database(conn, create_table_sql):
     try:
-        c = conn.cursor()
+        cursor = conn.cursor()
         for sql_script in create_table_sql.split("--"):
-            c.execute(sql_script)
-    except Error as e:
-        print(e)
+            cursor.execute(sql_script)
+    except Error as error:
+        print(error)
+
+
+def setup_soccer_data(conn):
+    soccer_data = read_json_file("database/soccer_data.json")
+    for league in soccer_data["leagues"]:
+        league_id = insert_new_league(
+            conn, league["name"], str(league["meta"]).replace("'", '"')
+        )
+        for team in league["teams"]:
+            insert_new_team(conn, team["name"], team["int"], team["rate"], league_id)
+
+
+def setup_nba_data(conn):
+    soccer_data = read_json_file("database/nba_data.json")
+    for conference_key, conference in soccer_data.items():
+        for division_key, division in conference.items():
+            for team_key, team in division.items():
+                insert_nba_team(
+                    conn, team["Name"], team_key, 0, conference_key, division_key
+                )
 
 
 def main():
@@ -41,17 +61,10 @@ def main():
 
     if conn is not None:
         # Create Tables
-        set_up_database(conn, sql_set_up_tables)
+        set_up_database(conn, SQL_TABLES_SETUP)
 
-        soccer_data = read_json_file("database/soccer_data.json")
-        for league in soccer_data["leagues"]:
-            league_id = insert_new_league(
-                conn, league["name"], str(league["meta"]).replace("'", '"')
-            )
-            for team in league["teams"]:
-                insert_new_team(
-                    conn, team["name"], team["int"], team["rate"], league_id
-                )
+        setup_soccer_data(conn)
+        setup_nba_data(conn)
 
     else:
         print("Error! database setup failed")

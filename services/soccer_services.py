@@ -8,8 +8,8 @@ def get_all_leagues(conn):
     return result
 
 
-def get_league_by_id(conn, id):
-    cursor = conn.execute(f"SELECT * FROM soccer_leagues WHERE id = {id};")
+def get_league_by_id(conn, league_id):
+    cursor = conn.execute(f"SELECT * FROM soccer_leagues WHERE id = {league_id};")
     row = cursor.fetchone()
     return dict(row)
 
@@ -32,8 +32,8 @@ def insert_new_league(conn, league_name, meta_json=""):
     return league_id
 
 
-def insert_new_team(conn, team_name, team_int, team_rating, league_id, meta_json=""):
-    cursor = conn.execute(
+def insert_new_team(conn, team_name, team_int, team_rating, league_id):
+    conn.execute(
         f"""INSERT INTO soccer_teams (team_name, team_int, team_rating, league_id)
          VALUES ('{team_name}','{team_int}',{team_rating},{league_id});"""
     )
