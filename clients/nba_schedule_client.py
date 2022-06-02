@@ -50,36 +50,41 @@ class NbaScheduling:
         self.games_lst = []
         self.season_length = 182
         self.schedule = [[] for i in range(self.season_length)]
+        # self.season_game_length_days_count = [
+        #     18,
+        #     0,
+        #     5,
+        #     5,
+        #     0,
+        #     12,
+        #     20,
+        #     26,
+        #     24,
+        #     22,
+        #     20,
+        #     15,
+        #     12,
+        #     10,
+        #     6,
+        # ]
         self.season_game_length_days_count = [
-            15,
-            12,
-            16,
-            18,
-            22,
-            24,
             20,
-            15,
-            15,
-            11,
-            9,
-            7,
-            5,
-        ]
-        self.season_allowed_game_length_days = [
             0,
-            2,
-            3,
+            4,
             5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
+            0,
+            24,
+            32,
+            30,
+            20,
+            16,
             14,
+            10,
+            10,
+            5,
+            3,
         ]
+        self.season_allowed_game_length_days = range(0, 15)
 
     def randomise_teams(self):
         return None
@@ -243,91 +248,114 @@ class NbaScheduling:
                 # Total 2H 2A, other two H and A games will be appended on opponents index
                 self.games_lst.append(
                     [
-                        [
-                            conference,
-                            division,
-                            opponent_team_key,
-                        ],
-                        [
-                            conference,
-                            division,
-                            team_key,
-                        ],
+                        [conference, division, opponent_team_key],
+                        [conference, division, team_key],
                     ]
                 )
                 self.games_lst.append(
                     [
-                        [
-                            conference,
-                            division,
-                            team_key,
-                        ],
-                        [
-                            conference,
-                            division,
-                            opponent_team_key,
-                        ],
+                        [conference, division, team_key],
+                        [conference, division, opponent_team_key],
                     ]
                 )
+
+    def determine_length_of_gameday(self, previous_selected_game_length_day):
+        selected_game_limit = random.randint(
+            0, len(self.season_allowed_game_length_days) - 1
+        )
+        while (
+            self.season_game_length_days_count[selected_game_limit] <= 0
+            or (
+                (
+                    previous_selected_game_length_day
+                    + self.season_allowed_game_length_days[selected_game_limit]
+                )
+                < 6
+            )
+            or (
+                (
+                    previous_selected_game_length_day
+                    + self.season_allowed_game_length_days[selected_game_limit]
+                )
+                > 20
+            )
+            or (
+                previous_selected_game_length_day
+                == self.season_allowed_game_length_days[selected_game_limit]
+            )
+        ):
+            selected_game_limit = random.randint(
+                0, len(self.season_allowed_game_length_days) - 1
+            )
+
+        return self.season_allowed_game_length_days[selected_game_limit]
 
     def schedule_games(self):
 
         current_games_lst = self.games_lst[:]
         added_games_count = 0
-        previous_selected_game_length_day = 0
+        previous_gameday_length = 0
+
         for day_index in range(len(self.schedule)):
             updated_games_lst = current_games_lst[:]
 
-            selected_game_limit = random.randint(
-                0, len(self.season_allowed_game_length_days) - 1
+            current_selected_game_length_day = self.determine_length_of_gameday(
+                previous_gameday_length
             )
-            while (
-                self.season_game_length_days_count[selected_game_limit] == 0
-                or (
-                    previous_selected_game_length_day
-                    + self.season_allowed_game_length_days[selected_game_limit]
-                    == 0
-                )
-                or (
-                    previous_selected_game_length_day
-                    + self.season_allowed_game_length_days[selected_game_limit]
-                    > 25
-                )
-            ):
-                selected_game_limit = random.randint(
-                    0, len(self.season_allowed_game_length_days) - 1
-                )
-            self.season_game_length_days_count[selected_game_limit] -= 1
-            previous_selected_game_length_day = self.season_allowed_game_length_days[
-                selected_game_limit
-            ]
-
+            previous_gameday_length = 0
             for game in updated_games_lst:
                 if day_index >= 2:
-                    if game[0] in flatten_list(self.schedule[day_index - 2]) and game[
-                        0
-                    ] in flatten_list(self.schedule[day_index - 1]):
+                    if game[0][-1] in flatten_list(
+                        self.schedule[day_index - 2]
+                    ) and game[0] in flatten_list(self.schedule[day_index - 1]):
                         continue
-                    elif game[1] in flatten_list(self.schedule[day_index - 2]) and game[
-                        1
-                    ] in flatten_list(self.schedule[day_index - 1]):
+                    elif game[1][-1] in flatten_list(
+                        self.schedule[day_index - 2]
+                    ) and game[1] in flatten_list(self.schedule[day_index - 1]):
                         continue
 
-                if (
-                    len(self.schedule[day_index])
-                    >= self.season_allowed_game_length_days[selected_game_limit]
-                ):
+                if len(self.schedule[day_index]) >= current_selected_game_length_day:
                     break
-                elif game[0] in flatten_list(self.schedule[day_index]) or game[
-                    1
+                elif game[0][-1] in flatten_list(self.schedule[day_index]) or game[1][
+                    -1
                 ] in flatten_list(self.schedule[day_index]):
                     continue
 
                 else:
+                    print(
+                        game,
+                        current_selected_game_length_day,
+                        self.season_game_length_days_count,
+                    )
 
                     self.schedule[day_index].append(game)
+                    home_team = game[0]
+                    away_team = game[1]
+                    self.team_lst[home_team[0]][home_team[1]][
+                        home_team[2]
+                    ].add_game_to_schedule(game, day_index)
+                    self.team_lst[away_team[0]][away_team[1]][
+                        away_team[2]
+                    ].add_game_to_schedule(game, day_index)
                     current_games_lst.remove(game)
+
                     added_games_count += 1
+                    previous_gameday_length += 1
+
+            self.season_game_length_days_count[previous_gameday_length] -= 1
+
+        print(added_games_count)
+        print([len(day) for day in self.schedule])
+        print(
+            len(self.team_lst["East"]["Atlantic"]["PHI"].schedule),
+            len(self.team_lst["East"]["Central"]["CHI"].schedule),
+            len(self.team_lst["East"]["Southeast"]["MIA"].schedule),
+            len(self.team_lst["West"]["Pacific"]["GSW"].schedule),
+            len(self.team_lst["West"]["Southwest"]["SAS"].schedule),
+            len(self.team_lst["West"]["Northwest"]["UTA"].schedule),
+        )
+        # print(self.team_lst["West"]["Southwest"]["SAS"].schedule)
+        print(self.schedule[-5:])
 
     def start_league(self):
 
@@ -342,5 +370,8 @@ class NbaScheduling:
 
         # Total length should be 1230
         # print(len(self.games_lst))
-
+        self.games_lst = (
+            self.games_lst[::3] + self.games_lst[1::3] + self.games_lst[2::3]
+        )
+        self.games_lst.reverse()
         self.schedule_games()

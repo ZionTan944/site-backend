@@ -5,6 +5,15 @@ class Team:
         self.games = []
         self.team_name = team_name
         self.team_int = team_int
-        self.daily_game_check = [0] * 176
         self.games_in_row = 0
         self.no_game_count = 0
+        self.schedule = []
+
+    def add_game_to_schedule(self, game, day):
+
+        current_season_length = len(self.schedule)
+        while day > current_season_length + 1:
+            self.schedule.append({})
+            current_season_length += 1
+
+        self.schedule.append({"game": game, "day": day})
